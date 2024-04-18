@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>상업용세탁장비</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.Default.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        .red-icon {
+            background-color: red;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+        .blue-icon {
+            background-color: blue;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+        .green-icon {
+            background-color: green;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/leaflet.markercluster.js"></script>
+<script>
+    // Leaflet을 사용하여 지도 생성
+    var map = L.map('map').setView([37.5665, 126.9780], 10); // 초기 지도 설정
+
+    // OpenStreetMap 타일 레이어 추가
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    // 마커 클러스터 그룹 생성
+    var markers = L.markerClusterGroup();
+
+    // 여러 개의 위치를 배열로 정의(판매, 수리, 소모품)
+    var locations = [
+
+        { coords: [37.6594059,	127.337168], message: "판매, 경성종합기계, 010-6628-0699", color: "red" },
+        { coords: [37.0753538,	127.1559978], message: "판매, 한강산업, 010-3896-8769", color: "red"  },
+        { coords: [35.8753495,	128.4713526], message: "판매, S&N인터내셔날, 010-6500-5567", color: "red"  },
+        { coords: [37.7250991,	126.5896969], message: "판매, 한성테크, 010-3713-7751", color: "blue"  },
+        { coords: [37.3998614,	127.3030263], message: "수리, 한서시스템, 010-5257-7439", color: "blue"  },
+        { coords: [37.6437481,	126.6250777], message: "판매, LMS, 010-2872-0204", color: "red"  },
+        { coords: [37.6065018,	126.762868], message: "수리, C&I KOREA, 010-9485-8726", color: "blue"  },
+        { coords: [37.2503645,	127.2143742], message: "판매, 이도비즈, 010-2006-9335", color: "red"  },
+        { coords: [37.6705428,	127.2181058], message: "판매, JW세탁기계, 010-6297-6686", color: "red"  },
+        { coords: [37.6604371,	127.3373548], message: "수리, 유진세탁기계, 010-5413-5881", color: "blue"  },
+        { coords: [37.7254694,	126.6118293], message: "판매, 한세교역, 010-5440-6987", color: "red"  },
+        { coords: [37.3404678,	127.1982922], message: "판매, KM세탁기계, 010-7159-6565", color: "red"  },
+        // 추가 위치는 이어서 계속해서 추가할 수 있습니다.
+    ];
+
+    // 각 위치에 대해 마커를 생성하여 클러스터에 추가
+    locations.forEach(function(location) {
+        var marker = L.marker(location.coords, {
+            icon: L.divIcon({
+                className: location.color + '-icon',
+                html: ''
+            })
+        });
+        marker.bindPopup(location.message); // 팝업 메시지 설정
+        markers.addLayer(marker);
+    });
+
+    // 클러스터를 지도에 추가
+    map.addLayer(markers);
+</script>
+
+</body>
+</html>
